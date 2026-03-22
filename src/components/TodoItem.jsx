@@ -1,4 +1,6 @@
 export const TodoItem = (props) => {
+  console.log('TodoInfo')
+
   const {
     className = '',
     id,
@@ -6,10 +8,11 @@ export const TodoItem = (props) => {
     isDone,
     onTaskCompleteChange,
     onDeleteTaskButton,
+    itemRef,
   } = props
 
   return (
-    <li className={`todo-item ${className}`}>
+    <li className={`todo-item ${className}`} ref={itemRef}>
       <input
         className="todo-item__checkbox"
         id={id}
