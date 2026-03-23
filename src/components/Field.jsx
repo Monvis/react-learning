@@ -7,6 +7,7 @@ export const Field = (props) => {
     value,
     onInput,
     inputRef,
+    autoFocus = false,
   } = props
 
   return (
@@ -26,6 +27,7 @@ export const Field = (props) => {
         value={value}
         onInput={onInput}
         ref={inputRef}
+        autoFocus={autoFocus}
       />
     </div>
   )

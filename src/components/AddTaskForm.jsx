@@ -23,6 +23,7 @@ export const AddTaskForm = (props) => {
         value={newTaskTitle}
         onInput={(event) => setNewTaskTitle(event.target.value)}
         inputRef={newTaskInputRef}
+        autoFocus
       />
       <AddButton />
     </form>
