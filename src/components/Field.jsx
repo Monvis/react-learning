@@ -7,6 +7,7 @@ export const Field = (props) => {
     value,
     onInput,
     inputRef,
+    error,
     autoFocus = false,
   } = props
 
@@ -19,7 +20,7 @@ export const Field = (props) => {
         {label}
       </label>
       <input
-        className="field__input"
+        className={`field__input ${error ? 'is-invalid' : ''}`}
         id={id}
         placeholder=" "
         autoComplete="off"
@@ -29,6 +30,9 @@ export const Field = (props) => {
         ref={inputRef}
         autoFocus={autoFocus}
       />
+      {error && (
+        <span className="field__error" title={error}>{error}</span>
+      )}
     </div>
   )
 }

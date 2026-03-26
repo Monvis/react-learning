@@ -21,7 +21,6 @@ const useTasks = () => {
     filteredTasks,
   } = useSearchQuery(tasks)
 
-
   const newTaskInputRef = useRef(null)
   const focusNewTaskInput = () => {
     newTaskInputRef.current?.focus()
@@ -60,7 +59,7 @@ const useTasks = () => {
     if (newTaskTitle.trim().length > 0) {
       const newTask = {
         id: crypto.randomUUID() ?? Date.now().toString(),
-        title: newTaskTitle,
+        title: newTaskTitle.trim(),
         isDone: false,
       }
 

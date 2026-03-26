@@ -29,7 +29,7 @@ export const TodoItem = (props) => {
       />
       <label
         className="todo-item__label"
-        htmlFor="task-1"
+        htmlFor={id}
       >
         {title}
       </label>
