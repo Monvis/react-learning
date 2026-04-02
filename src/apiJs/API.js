@@ -17,7 +17,20 @@ const tasksAPI = {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
   },
   deleteAll: () => {},
-  toggleComplete: () => {},
+  toggleComplete: async (id, isDone) => {
+    if (id == null || typeof isDone !== "boolean")
+      throw new Error("id or isDone is required!");
+
+    const response = await fetch(`${BASE_URL}/${id}`, {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify({
+        isDone: isDone,
+      }),
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  },
 };
 
 export { tasksAPI };

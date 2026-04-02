@@ -33,7 +33,7 @@ const useTasks = () => {
   const deleteTask = async (taskId) => {
     try {
       await tasksAPI.delete(taskId);
-      setTasks(tasks.filter((task) => task.id !== taskId));
+      setTasks((prev) => prev.filter((task) => task.id !== taskId));
     } catch (error) {
       console.error(`Задача не была удалена: ${error}`);
     }
@@ -41,29 +41,19 @@ const useTasks = () => {
 
   const toggleTaskComplete = async (id, isDone) => {
     try {
-      const response = await fetch(`http://localhost:3001/tasks/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          isDone: isDone,
-        }),
-      });
+      await tasksAPI.toggleComplete(id, isDone);
 
-      if (!response.ok) throw new Error("Ошибка сервера");
-
-      setTasks(
-        tasks.map((task) => {
+      setTasks((prev) => {
+        return prev.map((task) => {
           if (task.id === id) {
             return { ...task, isDone };
           }
 
           return task;
-        }),
-      );
+        });
+      });
     } catch (error) {
-      console.log(`КОД УПАЛ, МИЛОРД! ${error}`);
+      console.log(`Не удалось поменять статус задачи! ${error}`);
     }
   };
 
