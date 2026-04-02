@@ -29,7 +29,20 @@ const tasksAPI = {
 
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
   },
-  deleteAll: () => {},
+  deleteAll: async (tasks) => {
+    if (!Array.isArray(tasks)) throw new Error(`tasks is required!`);
+
+    const responses = await Promise.all(
+      tasks.map(({ id }) => {
+        return fetch(`${BASE_URL}/${id}`, {
+          method: "DELETE",
+        });
+      }),
+    );
+
+    const failed = responses.find((res) => !res.ok);
+    if (failed) throw new Error(`HTTP ${failed.status}`);
+  },
   toggleComplete: async (id, isDone) => {
     if (id == null || typeof isDone !== "boolean")
       throw new Error("id or isDone is required!");

@@ -14,19 +14,18 @@ const useTasks = () => {
   const newTaskInputRef = useRef(null);
   const focusNewTaskInput = () => newTaskInputRef.current?.focus();
 
-  const deleteAllTasks = () => {
+  const deleteAllTasks = async () => {
     const isConfirm = confirm("Are you shure you want to delete all tasks?");
 
     focusNewTaskInput();
 
-    if (isConfirm) {
-      Promise.all(
-        tasks.map(({ id }) => {
-          return fetch(`http://localhost:3001/tasks/${id}`, {
-            method: "DELETE",
-          });
-        }),
-      ).then(() => setTasks([]));
+    try {
+      if (isConfirm) {
+        await tasksAPI.deleteAll(tasks);
+        setTasks([]);
+      }
+    } catch (error) {
+      console.error(`Не удалось удалить список задач: ${error}`);
     }
   };
 
@@ -53,7 +52,7 @@ const useTasks = () => {
         });
       });
     } catch (error) {
-      console.log(`Не удалось поменять статус задачи! ${error}`);
+      console.error(`Не удалось поменять статус задачи! ${error}`);
     }
   };
 
