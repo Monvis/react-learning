@@ -6,7 +6,20 @@ const headers = {
 
 const tasksAPI = {
   getAll: () => {},
-  add: () => {},
+  add: async (newTask) => {
+    if (!newTask) throw new Error(`newTask is required!`);
+
+    const response = await fetch(`${BASE_URL}`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(newTask),
+    });
+
+    if (!response.ok) throw new Error("Ошибка при добавлении здачи");
+
+    const createdTask = await response.json();
+    return createdTask;
+  },
   delete: async (taskId) => {
     if (!taskId) throw new Error("taskId is required");
 

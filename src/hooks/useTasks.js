@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { tasksAPI } from "../apiJs/API";
+import { tasksAPI } from "../api/API";
 import useSearchQuery from "./useSearchQuery";
 
 const useTasks = () => {
@@ -67,18 +67,8 @@ const useTasks = () => {
       };
 
       try {
-        const response = await fetch("http://localhost:3001/tasks", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newTask),
-        });
-
-        // Get newTask with id from db.json5
-        const createdTask = await response.json();
-
-        if (!response.ok) throw new Error("Ошибка при добавлении");
+        // Get newTask with new id from db.json5
+        const createdTask = await tasksAPI.add(newTask);
 
         setTasks([...tasks, createdTask]);
         setNewTaskTitle("");
