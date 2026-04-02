@@ -1,14 +1,13 @@
-import { useRef } from "react"
+import { useRef } from "react";
 
 const useIncompleteTask = (tasks) => {
-
-  const firstIncompleteTaskRef = useRef(null)
-  const firstIncompleteTaskId = tasks.find(({ isDone }) => !isDone )?.id
+  const firstIncompleteTaskRef = useRef(null);
+  const firstIncompleteTaskId = tasks.find(({ isDone }) => !isDone)?.id;
 
   return {
     firstIncompleteTaskRef,
     firstIncompleteTaskId,
-  }
-}
+  };
+};
 
-export default useIncompleteTask
+export default useIncompleteTask;

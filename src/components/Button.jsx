@@ -1,11 +1,11 @@
 const Button = (props) => {
   const {
-    className = '',
-    type = 'button',
+    className = "",
+    type = "button",
     children,
     onClick,
     isDisabled,
-  } = props
+  } = props;
 
   return (
     <button
@@ -16,7 +16,7 @@ const Button = (props) => {
     >
       {children}
     </button>
-  )
-}
+  );
+};
 
-export { Button }
+export { Button };

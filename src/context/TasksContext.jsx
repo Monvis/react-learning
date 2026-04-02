@@ -1,14 +1,14 @@
 import { createContext } from "react";
 
 // custom hooks
-import useTasks from "../hooks/useTasks"
+import useTasks from "../hooks/useTasks";
 import useIncompleteTask from "../hooks/useIncompleteTask";
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const TasksContext = createContext({})
+export const TasksContext = createContext({});
 
 export const TasksProvider = (props) => {
-  const { children } = props
+  const { children } = props;
 
   const {
     tasks,
@@ -22,12 +22,10 @@ export const TasksProvider = (props) => {
     newTaskTitle,
     setNewTaskTitle,
     newTaskInputRef,
-  } = useTasks()
+  } = useTasks();
 
-  const {
-    firstIncompleteTaskRef,
-    firstIncompleteTaskId,
-  } = useIncompleteTask(tasks)
+  const { firstIncompleteTaskRef, firstIncompleteTaskId } =
+    useIncompleteTask(tasks);
 
   return (
     <TasksContext.Provider
@@ -49,5 +47,5 @@ export const TasksProvider = (props) => {
     >
       {children}
     </TasksContext.Provider>
-  )
-}
+  );
+};

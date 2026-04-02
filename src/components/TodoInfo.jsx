@@ -1,17 +1,14 @@
-import { useContext, useMemo } from "react"
-import { TasksContext } from "../context/TasksContext"
+import { useContext, useMemo } from "react";
+import { TasksContext } from "../context/TasksContext";
 
 export const TodoInfo = () => {
-  const {
-    tasks,
-    deleteAllTasks,
-  } = useContext(TasksContext)
+  const { tasks, deleteAllTasks } = useContext(TasksContext);
 
-  const total = tasks.length
-  const hasTasks = total > 0
+  const total = tasks.length;
+  const hasTasks = total > 0;
   const doneTasks = useMemo(() => {
-    return tasks.filter(({ isDone }) => isDone).length
-  }, [tasks])
+    return tasks.filter(({ isDone }) => isDone).length;
+  }, [tasks]);
 
   return (
     <div className="todo__info">
@@ -28,5 +25,5 @@ export const TodoInfo = () => {
         </button>
       )}
     </div>
-  )
-}
+  );
+};

@@ -1,14 +1,13 @@
-
-import { SearchTaskForm } from "./SearchTaskForm"
-import { TasksContext } from "../context/TasksContext"
-import { AddTaskForm } from "./AddTaskForm"
-import { TodoInfo } from "./TodoInfo"
-import { TodoList } from "./TodoList"
-import { Button } from "./Button"
-import { useContext } from "react"
+import { SearchTaskForm } from "./SearchTaskForm";
+import { TasksContext } from "../context/TasksContext";
+import { AddTaskForm } from "./AddTaskForm";
+import { TodoInfo } from "./TodoInfo";
+import { TodoList } from "./TodoList";
+import { Button } from "./Button";
+import { useContext } from "react";
 
 export const Todo = () => {
-  const { firstIncompleteTaskRef } = useContext(TasksContext)
+  const { firstIncompleteTaskRef } = useContext(TasksContext);
 
   return (
     <div className="todo">
@@ -16,12 +15,14 @@ export const Todo = () => {
       <AddTaskForm />
       <SearchTaskForm />
       <Button
-        onClick={() => firstIncompleteTaskRef.current?.scrollIntoView({behavior: 'smooth'})}
+        onClick={() =>
+          firstIncompleteTaskRef.current?.scrollIntoView({ behavior: "smooth" })
+        }
       >
         Show first incomplete task
       </Button>
       <TodoInfo />
       <TodoList />
     </div>
-  )
-}
+  );
+};

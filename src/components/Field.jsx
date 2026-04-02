@@ -1,26 +1,23 @@
 export const Field = (props) => {
   const {
-    className = '',
+    className = "",
     id,
     label,
-    type = 'text',
+    type = "text",
     value,
     onInput,
     inputRef,
     error,
     autoFocus = false,
-  } = props
+  } = props;
 
   return (
     <div className={`field ${className}`}>
-      <label
-        className="field__label"
-        htmlFor={id}
-      >
+      <label className="field__label" htmlFor={id}>
         {label}
       </label>
       <input
-        className={`field__input ${error ? 'is-invalid' : ''}`}
+        className={`field__input ${error ? "is-invalid" : ""}`}
         id={id}
         placeholder=" "
         autoComplete="off"
@@ -31,8 +28,10 @@ export const Field = (props) => {
         autoFocus={autoFocus}
       />
       {error && (
-        <span className="field__error" title={error}>{error}</span>
+        <span className="field__error" title={error}>
+          {error}
+        </span>
       )}
     </div>
-  )
-}
+  );
+};
