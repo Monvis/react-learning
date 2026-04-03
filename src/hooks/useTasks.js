@@ -81,20 +81,16 @@ const useTasks = () => {
 
   // initial tasks render from db.json5
   useEffect(() => {
-    try {
-      const getAllTasks = async () => {
-        const response = await fetch(`http://localhost:3001/tasks`);
-        const data = await response.json();
-
-        if (!response.ok) throw new Error("Не удалось получить задачи из БД");
-
+    const loadTasks = async () => {
+      try {
+        const data = await tasksAPI.getAll();
         setTasks(Array.isArray(data) ? data : []);
-      };
+      } catch (error) {
+        console.error(`Не удалось получить список задач из сервера: ${error}`);
+      }
+    };
 
-      getAllTasks();
-    } catch (error) {
-      console.error(`КОД УПАЛ, МИЛОРД! ${error}`);
-    }
+    loadTasks();
   }, []);
 
   useEffect(() => {

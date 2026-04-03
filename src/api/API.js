@@ -5,9 +5,16 @@ const headers = {
 };
 
 const tasksAPI = {
-  getAll: () => {},
+  getAll: async () => {
+    const response = await fetch(`${BASE_URL}`);
+    const data = await response.json();
+
+    if (!response.ok) throw new Error("Не удалось получить задачи из БД");
+
+    return data;
+  },
   add: async (newTask) => {
-    if (!newTask) throw new Error(`newTask is required!`);
+    if (!newTask) throw new Error("newTask is required!");
 
     const response = await fetch(`${BASE_URL}`, {
       method: "POST",
@@ -30,10 +37,13 @@ const tasksAPI = {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
   },
   deleteAll: async (tasks) => {
-    if (!Array.isArray(tasks)) throw new Error(`tasks is required!`);
+    if (!Array.isArray(tasks)) throw new Error("tasks is required!");
 
     const responses = await Promise.all(
       tasks.map(({ id }) => {
+        if (id == null || id == undefined)
+          throw new Error("the id value is null");
+
         return fetch(`${BASE_URL}/${id}`, {
           method: "DELETE",
         });
