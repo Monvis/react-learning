@@ -1,10 +1,10 @@
-# Todo React - Project Documentation
+# Todo React
 
 ## Overview
 
-This project is a small Todo application built with React and Vite.
-It supports creating tasks, searching tasks, marking tasks as completed, deleting individual tasks, and deleting all tasks.
-Task data is persisted in `localStorage`.
+Todo application built with React and Vite.
+Supports creating tasks, searching, toggling completion, deleting one task, and deleting all tasks.
+Data is stored on a local JSON server (`json-server`) via HTTP API.
 
 ## Tech Stack
 
@@ -12,14 +12,21 @@ Task data is persisted in `localStorage`.
 - React DOM 19
 - Vite 7
 - ESLint 9
+- json-server
 
 ## Available Scripts
 
-Run commands from the project root:
+Run from project root:
 
 ```bash
 npm install
 npm run dev
+```
+
+Run API server:
+
+```bash
+npm run server
 ```
 
 Other scripts:
@@ -36,19 +43,23 @@ npm run lint
 src/
   App.jsx
   main.jsx
-  assets/
-    icons/
-      icon-check_white.svg
-      icon-search_black.svg
+  api/
+    API.js
+  context/
+    TasksContext.jsx
+  hooks/
+    useTasks.js
+    useSearchQuery.js
+    useIncompleteTask.js
   components/
-    AddButton.jsx
     AddTaskForm.jsx
-    Field.jsx
     SearchTaskForm.jsx
     Todo.jsx
     TodoInfo.jsx
     TodoItem.jsx
     TodoList.jsx
+    Field.jsx
+    Button.jsx
   styles/
     index.js
     normalize.css
@@ -61,36 +72,24 @@ src/
       field.css
       todo.css
       todo-item.css
+  assets/
+    icons/
+      icon-check_white.svg
+      icon-search_black.svg
 ```
 
-## How It Works
+## Architecture
 
-Core logic is in `src/components/Todo.jsx`:
-
-- Initializes `tasks` from `localStorage` key `tasks`.
-- Falls back to a default in-memory list when there is no saved data.
-- Stores updates to `localStorage` via `useEffect` when `tasks` changes.
-- Keeps two UI states:
-  - `newTaskTitle` for controlled input in add form.
-  - `searchQuery` for filtering tasks.
-- Computes `filteredTasks` based on case-insensitive title match.
-
-Task operations:
-
-- Add task: `addTask()`
-- Toggle completion: `toggleTaskComplete(id, isDone)`
-- Delete one task: `deleteTask(taskId)`
-- Delete all tasks: `deleteAllTasks()`
-
-## UI Composition
-
-- `App.jsx` renders `Todo`.
-- `AddTaskForm` renders input + add button and handles submit.
-- `SearchTaskForm` renders search field.
-- `TodoInfo` shows done/total counter and "Delete all" button.
-- `TodoList` renders task list or empty states.
-- `TodoItem` renders checkbox, title label, and delete button.
-- Global and component styles are imported once in `src/styles/index.js` from `src/main.jsx`.
+- `TasksProvider` (`src/context/TasksContext.jsx`) provides task state and actions to UI components.
+- `useTasks` (`src/hooks/useTasks.js`) contains UI-facing task logic and state updates.
+- `tasksAPI` (`src/api/API.js`) contains server requests:
+  - `getAll`
+  - `add`
+  - `delete`
+  - `deleteAll`
+  - `toggleComplete`
+- `useSearchQuery` computes filtered tasks by title.
+- `useIncompleteTask` tracks the first incomplete task for scroll/focus helpers.
 
 ## Data Model
 
@@ -104,22 +103,9 @@ Each task object:
 }
 ```
 
-## Current Limitations / Known Issues
+## Notes
 
-This list reflects the current codebase state:
-
-- `Todo.jsx` imports `TodoInfo` using `./todoInfo`, but the file is `TodoInfo.jsx`.
-  - This may fail on case-sensitive file systems.
-- `TodoItem.jsx` has `label htmlFor="task-1"` instead of using dynamic `id`.
-  - Clicking labels may not target the correct checkbox for all items.
-- Initial fallback task titles in `Todo.jsx` contain broken Cyrillic encoding.
-- `Todo.jsx` includes a top-level `console.log("AI working")`.
-
-## Notes for Further Development
-
-- Replace broken fallback task text with valid UTF-8 strings.
-- Fix case-sensitive import path for `TodoInfo`.
-- Bind `TodoItem` label to dynamic `id`.
-- Add tests for task operations and filtering behavior.
-- Replace default `README.md` template with project-specific content when ready.
+- Frontend runs on Vite default port (`5173`).
+- API runs on `http://localhost:3001/tasks` using `db.json5`.
+- To work with tasks correctly, run frontend and API server in parallel.
 
