@@ -1,0 +1,21 @@
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 16px;
+  font-weight: 600;
+}
+
+.totalTasks {
+  font-weight: inherit;
+}
+
+.deleteAllButton {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+
+  &:hover {
+    color: var(--color-gray-4);
+  }
+}

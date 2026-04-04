@@ -1,10 +1,5 @@
-import './normalize.css'
-import './fonts.css'
-import './variables.css'
-import './utils.css'
-import './globals.css'
-
-import './components/button.css'
-import './components/field.css'
-import './components/todo.css'
-import './components/todo-item.css'
+import "./normalize.scss";
+import "./fonts.scss";
+import "./variables.scss";
+import "./utils.scss";
+import "./globals.scss";

@@ -1,3 +1,5 @@
+import s from "./button.module.scss";
+
 const Button = (props) => {
   const {
     className = "",
@@ -9,7 +11,7 @@ const Button = (props) => {
 
   return (
     <button
-      className={`button ${className}`}
+      className={`${s.button} ${className}`}
       type={type}
       disabled={isDisabled}
       onClick={onClick}

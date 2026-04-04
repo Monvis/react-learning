@@ -1,0 +1,18 @@
+.list {
+  --todoListRowGap: 8px;
+
+  display: grid;
+  row-gap: var(--todoListRowGap);
+}
+
+.list,
+.emptyMessage {
+  &:empty {
+    display: none;
+  }
+}
+
+.emptyMessage {
+  text-align: center;
+  color: var(--color-gray-4);
+}

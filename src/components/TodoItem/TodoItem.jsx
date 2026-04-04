@@ -1,5 +1,7 @@
 import { useContext } from "react";
-import { TasksContext } from "../context/TasksContext";
+import { TasksContext } from "../../context/TasksContext";
+
+import s from "./todo-item.module.scss";
 
 export const TodoItem = (props) => {
   const { className = "", id, title, isDone } = props;
@@ -13,11 +15,11 @@ export const TodoItem = (props) => {
 
   return (
     <li
-      className={`todo-item ${className}`}
+      className={`${s.item} ${className}`}
       ref={id === firstIncompleteTaskId ? firstIncompleteTaskRef : null}
     >
       <input
-        className="todo-item__checkbox"
+        className={s.checkbox}
         id={id}
         type="checkbox"
         checked={isDone}
@@ -25,11 +27,11 @@ export const TodoItem = (props) => {
           toggleTaskComplete(id, target.checked);
         }}
       />
-      <label className="todo-item__label" htmlFor={id}>
+      <label className={s.label} htmlFor={id}>
         {title}
       </label>
       <button
-        className="todo-item__delete-button"
+        className={s.deleteButton}
         aria-label="Delete"
         title="Delete"
         onClick={() => deleteTask(id)}
