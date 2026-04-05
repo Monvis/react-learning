@@ -1,4 +1,4 @@
-import s from "./field.module.scss";
+import styles from "./field.module.scss";
 
 export const Field = (props) => {
   const {
@@ -14,12 +14,12 @@ export const Field = (props) => {
   } = props;
 
   return (
-    <div className={`${s.field} ${className}`}>
-      <label className={s.label} htmlFor={id}>
+    <div className={`${styles.field} ${className}`}>
+      <label className={styles.label} htmlFor={id}>
         {label}
       </label>
       <input
-        className={`${s.input} ${error ? s.isInvalid : ""}`}
+        className={`${styles.input} ${error ? styles.isInvalid : ""}`}
         id={id}
         placeholder=" "
         autoComplete="off"
@@ -30,10 +30,11 @@ export const Field = (props) => {
         autoFocus={autoFocus}
       />
       {error && (
-        <span className={s.error} title={error}>
+        <span className={styles.error} title={error}>
           {error}
         </span>
       )}
     </div>
   );
 };
+

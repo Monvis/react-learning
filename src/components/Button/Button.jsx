@@ -1,4 +1,4 @@
-import s from "./button.module.scss";
+import styles from "./button.module.scss";
 
 const Button = (props) => {
   const {
@@ -11,7 +11,7 @@ const Button = (props) => {
 
   return (
     <button
-      className={`${s.button} ${className}`}
+      className={`${styles.button} ${className}`}
       type={type}
       disabled={isDisabled}
       onClick={onClick}
@@ -22,3 +22,4 @@ const Button = (props) => {
 };
 
 export { Button };
+

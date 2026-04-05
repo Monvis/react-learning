@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { TasksContext } from "../../context/TasksContext";
 import { Button } from "../Button/Button";
 
-import s from "./addTaskForm.module.scss";
+import styles from "./addTaskForm.module.scss";
 
 export const AddTaskForm = () => {
   const { addTask, newTaskTitle, setNewTaskTitle, newTaskInputRef } =
@@ -26,9 +26,9 @@ export const AddTaskForm = () => {
   };
 
   return (
-    <form className={s.form} onSubmit={onSubmit}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <Field
-        className={s.field}
+        className={styles.field}
         label="New task title"
         id="new-task"
         value={newTaskTitle}
@@ -43,3 +43,4 @@ export const AddTaskForm = () => {
     </form>
   );
 };
+

@@ -13,6 +13,11 @@ const tasksAPI = {
 
     return data;
   },
+
+  getById: (id) => {
+    return fetch(`${BASE_URL}/${id}`).then((response) => response.json());
+  },
+
   add: async (newTask) => {
     if (!newTask) throw new Error("newTask is required!");
 
