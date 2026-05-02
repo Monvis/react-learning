@@ -32,6 +32,7 @@ const tasksAPI = {
     const createdTask = await response.json();
     return createdTask;
   },
+
   delete: async (taskId) => {
     if (!taskId) throw new Error("taskId is required");
 
@@ -41,6 +42,7 @@ const tasksAPI = {
 
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
   },
+
   deleteAll: async (tasks) => {
     if (!Array.isArray(tasks)) throw new Error("tasks is required!");
 
@@ -58,6 +60,7 @@ const tasksAPI = {
     const failed = responses.find((res) => !res.ok);
     if (failed) throw new Error(`HTTP ${failed.status}`);
   },
+
   toggleComplete: async (id, isDone) => {
     if (id == null || typeof isDone !== "boolean")
       throw new Error("id or isDone is required!");

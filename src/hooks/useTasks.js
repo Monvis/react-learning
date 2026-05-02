@@ -3,6 +3,9 @@ import { tasksAPI } from "../api/API";
 import useSearchQuery from "./useSearchQuery";
 
 const useTasks = () => {
+  const [disappearingId, setDisappearingId] = useState(null);
+  const [appearingId, setAppearingId] = useState(null);
+
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [tasks, setTasks] = useState([
     { id: "task-1", title: "Купить видеокарту", isDone: true },
@@ -10,7 +13,6 @@ const useTasks = () => {
   ]);
 
   const { searchQuery, setSearchQuery, filteredTasks } = useSearchQuery(tasks);
-
   const newTaskInputRef = useRef(null);
   const focusNewTaskInput = () => newTaskInputRef.current?.focus();
 
@@ -32,7 +34,11 @@ const useTasks = () => {
   const deleteTask = async (taskId) => {
     try {
       await tasksAPI.delete(taskId);
-      setTasks((prev) => prev.filter((task) => task.id !== taskId));
+      setDisappearingId(taskId);
+      setTimeout(() => {
+        setTasks((prev) => prev.filter((task) => task.id !== taskId));
+        setDisappearingId(null);
+      }, 400);
     } catch (error) {
       console.error(`Задача не была удалена: ${error}`);
     }
@@ -70,9 +76,14 @@ const useTasks = () => {
         const createdTask = await tasksAPI.add(newTask);
 
         setTasks([...tasks, createdTask]);
+        setAppearingId(createdTask.id);
         setNewTaskTitle("");
         setSearchQuery("");
         focusNewTaskInput();
+
+        setTimeout(() => {
+          setAppearingId(null);
+        }, 400);
       } catch (error) {
         console.error(`Не удалось сохранить задачу: ${error}`);
       }
@@ -109,6 +120,8 @@ const useTasks = () => {
     newTaskTitle,
     setNewTaskTitle,
     newTaskInputRef,
+    disappearingId,
+    appearingId,
   };
 };
 

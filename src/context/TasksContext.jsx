@@ -22,6 +22,8 @@ export const TasksProvider = (props) => {
     newTaskTitle,
     setNewTaskTitle,
     newTaskInputRef,
+    disappearingId,
+    appearingId,
   } = useTasks();
 
   const { firstIncompleteTaskRef, firstIncompleteTaskId } =
@@ -43,6 +45,8 @@ export const TasksProvider = (props) => {
         newTaskTitle,
         setNewTaskTitle,
         newTaskInputRef,
+        disappearingId,
+        appearingId,
       }}
     >
       {children}
