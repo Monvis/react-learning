@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useMemo } from "react";
 
 // custom hooks
 import useTasks from "./useTasks";
@@ -29,27 +29,44 @@ export const TasksProvider = (props) => {
   const { firstIncompleteTaskRef, firstIncompleteTaskId } =
     useIncompleteTask(tasks);
 
+  const value = useMemo(
+    () => ({
+      tasks,
+      filteredTasks,
+      deleteTask,
+      deleteAllTasks,
+      toggleTaskComplete,
+      searchQuery,
+      setSearchQuery,
+      addTask,
+      newTaskTitle,
+      setNewTaskTitle,
+      newTaskInputRef,
+      disappearingId,
+      appearingId,
+      firstIncompleteTaskRef,
+      firstIncompleteTaskId,
+    }),
+    [
+      tasks,
+      filteredTasks,
+      deleteTask,
+      deleteAllTasks,
+      toggleTaskComplete,
+      searchQuery,
+      setSearchQuery,
+      addTask,
+      newTaskTitle,
+      setNewTaskTitle,
+      newTaskInputRef,
+      disappearingId,
+      appearingId,
+      firstIncompleteTaskRef,
+      firstIncompleteTaskId,
+    ],
+  );
+
   return (
-    <TasksContext.Provider
-      value={{
-        tasks,
-        filteredTasks,
-        firstIncompleteTaskRef,
-        firstIncompleteTaskId,
-        deleteTask,
-        deleteAllTasks,
-        toggleTaskComplete,
-        searchQuery,
-        setSearchQuery,
-        addTask,
-        newTaskTitle,
-        setNewTaskTitle,
-        newTaskInputRef,
-        disappearingId,
-        appearingId,
-      }}
-    >
-      {children}
-    </TasksContext.Provider>
+    <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
   );
 };

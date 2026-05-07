@@ -1,16 +1,40 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useReducer } from "react";
 import { tasksAPI } from "@/shared/api/tasks/index";
 import useSearchQuery from "@/shared/hooks/useSearchQuery";
+
+const tasksReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_ALL": {
+      return Array.isArray(action.tasks) ? action.tasks : state;
+    }
+    case "ADD": {
+      return [...state, action.task];
+    }
+    case "TOGGLE_COMPLETE": {
+      const { id, isDone } = action;
+
+      return state.map((task) => {
+        return task.id === id ? { ...task, isDone } : task;
+      });
+    }
+    case "DELETE": {
+      return state.filter((task) => task.id !== action.id);
+    }
+    case "DELETE_ALL": {
+      return [];
+    }
+    default: {
+      return state;
+    }
+  }
+};
 
 const useTasks = () => {
   const [disappearingId, setDisappearingId] = useState(null);
   const [appearingId, setAppearingId] = useState(null);
 
   const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [tasks, setTasks] = useState([
-    { id: "task-1", title: "Купить видеокарту", isDone: true },
-    { id: "task-2", title: "Продать наушники", isDone: false },
-  ]);
+  const [tasks, dispath] = useReducer(tasksReducer, []);
 
   const { searchQuery, setSearchQuery, filteredTasks } = useSearchQuery(tasks);
   const newTaskInputRef = useRef(null);
@@ -24,7 +48,7 @@ const useTasks = () => {
     try {
       if (isConfirm) {
         await tasksAPI.deleteAll(tasks);
-        setTasks([]);
+        dispath({ type: "DELETE_ALL" });
       }
     } catch (error) {
       console.error(`Не удалось удалить список задач: ${error}`);
@@ -36,7 +60,7 @@ const useTasks = () => {
       await tasksAPI.delete(taskId);
       setDisappearingId(taskId);
       setTimeout(() => {
-        setTasks((prev) => prev.filter((task) => task.id !== taskId));
+        dispath({ type: "DELETE", id: taskId });
         setDisappearingId(null);
       }, 400);
     } catch (error) {
@@ -44,19 +68,10 @@ const useTasks = () => {
     }
   };
 
-  const toggleTaskComplete = async (id, isDone) => {
+  const toggleTaskComplete = async (taskId, isDone) => {
     try {
-      await tasksAPI.toggleComplete(id, isDone);
-
-      setTasks((prev) => {
-        return prev.map((task) => {
-          if (task.id === id) {
-            return { ...task, isDone };
-          }
-
-          return task;
-        });
-      });
+      await tasksAPI.toggleComplete(taskId, isDone);
+      dispath({ type: "TOGGLE_COMPLETE", id: taskId, isDone });
     } catch (error) {
       console.error(`Не удалось поменять статус задачи! ${error}`);
     }
@@ -75,7 +90,7 @@ const useTasks = () => {
         // Get newTask with new id from db.json5
         const createdTask = await tasksAPI.add(newTask);
 
-        setTasks([...tasks, createdTask]);
+        dispath({ type: "ADD", task: createdTask });
         setAppearingId(createdTask.id);
         setNewTaskTitle("");
         setSearchQuery("");
@@ -94,8 +109,8 @@ const useTasks = () => {
   useEffect(() => {
     const loadTasks = async () => {
       try {
-        const data = await tasksAPI.getAll();
-        setTasks(Array.isArray(data) ? data : []);
+        const serverTasks = await tasksAPI.getAll();
+        dispath({ type: "SET_ALL", tasks: serverTasks });
       } catch (error) {
         console.error(`Не удалось получить список задач из сервера: ${error}`);
       }
